@@ -5,9 +5,88 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>{$title}-{SITE_NAME}</title>
         <meta name="description" content="{$description}'/}">
-        <!-- 添加Font Awesome 6图标库 -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.3/plyr.css" />
+
+
+   <style>
+
+:root {
+    /* 主色调 */
+    --plyr-color-main: #FFFFFF; /* 改为你想要的主色调 */
+    
+    /* 播放进度条颜色 */
+    --plyr-range-fill-background: #E91E63;
+    
+    /* 播放按钮hover颜色 */
+    --plyr-video-control-background-hover: #ffffff00;
+    
+    /* 控制按钮颜色 */
+    --plyr-video-control-color: #ffffff;
+    
+    /* 音量条颜色 */
+    --plyr-range-thumb-background: #FFFFFF;
+    --plyr-range-fill-background: #FFFFFF;
+    
+    /* 缓冲条颜色 */
+    --plyr-progress-loading-background: rgba(255, 255, 255, 0.6);
+    
+    /* 菜单背景色 */
+    --plyr-menu-background: rgba(28, 28, 28, 0.9);
+    
+    /* 菜单项hover颜色 */
+    --plyr-menu-color: #ffffff;
+    --plyr-menu-item-text-color: #ffffff;
+    
+    /* 加载动画颜色 */
+    --plyr-spinner-color: #FFFFFF;
+}
+
+/* 自定义控件样式 */
+.plyr--video .plyr__control:hover {
+    background: var(--plyr-video-control-background-hover);
+}
+
+/* 播放按钮样式 */
+.plyr__control--overlaid {
+    background: #ffffff57 ;
+}
+
+/* 进度条缓冲样式 */
+.plyr--full-ui input[type=range] {
+    color: var(--plyr-range-fill-background);
+}
+
+/* 音量条样式 */
+.plyr--full-ui input[type=range]::-webkit-slider-thumb {
+    background: var(--plyr-range-thumb-background);
+}
+
+/* 控制栏背景渐变 */
+.plyr--video .plyr__controls {
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
+}
+@media (min-width: 768px) {
+    .plyr--video .plyr__control--overlaid {
+        width: 80px; /* 增加宽度 */
+        height: 80px; /* 增加高度 */
+    }
+
+    .plyr--video .plyr__control--overlaid svg {
+        width: 53px; /* 增加图标宽度 */
+        height: 36px; /* 增加图标高度 */
+    }
+}
+
+
+
+    </style>
+<script src="https://cdn.plyr.io/3.7.3/plyr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
       {template "header.htm"}   
+
 
 
         <div id="load_overlay" class="load_overlay"></div>
@@ -39,20 +118,15 @@
         </section>
 
         <section class="section no-p">
+            
+		<div id="videoPlayer" class="video-container">
 		
-		
-		
-		
-  <div id="videoPlayer" class="video-container">
-                <video controls controlsList="nodownload" style="width:100%;" poster="{dr_get_file($thumb)}" id="mainVideo">
-                    <source src="https://aplus.filma.cn/1826576586/12192648" type="video/mp4">
-                    <!-- 在source标签后添加播放按钮 -->
-                    <div class="play-button-overlay"></div>
-                </video>
-                <div class="play-button" id="playButton">
-                    <i class="fa fa-play"></i>
-                </div>
-</div>
+			<video 
+    class="js-player" 
+    playsinline 
+    controls
+    data-src="{dr_get_file($video)}" poster="{dr_get_file($thumb)}">
+</video> 
                
             </div>
 			
@@ -99,6 +173,7 @@
 
 {if $prev_page}
                         <li class="journal-thumbnail-container link">
+                            <img class="motion_hover__img" src="{dr_thumb($prev_page.thumb, '', '')}" alt="{$prev_page.title}"/>
                             <div>
                                 <a href="{$prev_page.url}" class="hover-target">
                                     <div class="label">
@@ -112,24 +187,17 @@
                                     </div>
                                 </a>
                             </div>
-                            <img class="motion_hover__img" data-src="{dr_thumb($prev_page.thumb, '', '')} " alt=""/>
                         </li>{/if}
 
                         
 {if $next_page}
                         <li class="journal-thumbnail-container link">
+                            <img class="motion_hover__img" src="{dr_thumb($next_page.thumb, '', '')}" alt="{$next_page.title}"/>
                             <div>
                                 <a href="{$next_page.url}"  class="hover-target">
                                     <div class="label">
                                         <span class="indicator font_caps">Next</span>
                                         <h4>{$next_page.title}</h4>
-										
-										
-										
-										
-										
-										
-
                                         <p>
                                          {dr_strcut($next_page.description, 20)}
                                         <span class="category font_caps">/ {$cat.name}</span>
@@ -138,8 +206,8 @@
                                     </div>
                                 </a>
                             </div>
-                            <img class="motion_hover__img" data-src="{dr_thumb($next_page.thumb, '', '')}" alt=""/>
                         </li>{/if}
+                        
                         
                     </ol>
 
@@ -162,55 +230,9 @@
        
          
     </body>
-    <style>
-        .video-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-        
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease;
-        }
-        
-        .play-button i {
-            content: "\f04b"; /* FontAwesome 播放图标 */
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: white;
-            font-size: 30px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .play-button:hover {
-            background-color: rgba(0, 0, 0, 0.9);
-            width: 85px;
-            height: 85px;
-        }
-        
-        .video-playing .play-button {
-            opacity: 0;
-            pointer-events: none;
-        }
-    </style>
-    
-    <script>
+   
+
+     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const videoPlayer = document.getElementById('videoPlayer');
             const video = document.getElementById('mainVideo');
@@ -241,9 +263,6 @@
                 videoPlayer.classList.remove('video-playing');
             });
             
-            // 完全移除视频点击事件，让原生控件处理
-            // 原生控件已经能够处理点击暂停/播放的功能
-            
             // 防止视频控件区域的点击事件冒泡
             video.addEventListener('controlschange', function(e) {
                 e.stopPropagation();
@@ -251,8 +270,20 @@
             
             // 移除可能导致冲突的事件监听
             video.removeEventListener('click', function() {});
+            
+          // 处理缩略图懒加载
+            const loadThumbnails = function() {
+                const thumbnails = document.querySelectorAll('.motion_hover__img[data-src]');
+                thumbnails.forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                    img.removeAttribute('data-src');
+                });
+            };
+            
+            // 页面加载完成后执行
+            loadThumbnails();
+
         });
     </script>
-    </body>
 </html>
 
