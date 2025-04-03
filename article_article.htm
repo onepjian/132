@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+    <head>
+       <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>{$title}-{SITE_NAME}</title>
+        <meta name="description" content="{$description}'/}">
+        <!-- 添加Font Awesome 6图标库 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      {template "header.htm"}   
+
+
+        <div id="load_overlay" class="load_overlay"></div>
+        
+
+        <div id="dynamicLoad" class="dynamic_load">
+            <div class="progress">
+                <div class="bar" id="dynamicBar"></div>
+            </div>
+        </div>
+
+        
+        <div id="barba-wrapper">
+            <div class="barba-container">
+                <div data-scroll-container="">
+                    <div id="main">
+                        
+
+    <div class="header_animate" data-scroll-section="">
+        <section class="section small-pb section__header">
+            <div class="q-container container-inner">
+                <div class="columns">
+                    <div class="column menu_fade">
+                        <h2 class=""><span class="reveal_short">{$title}</span></h2>
+                        <h6 class="font_caps"><span class="reveal_short">/ {$cat.name}</span></h6>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section no-p">
+		
+		
+		
+		
+  <div id="videoPlayer" class="video-container">
+                <video controls controlsList="nodownload" style="width:100%;" poster="{dr_get_file($thumb)}" id="mainVideo">
+                    <source src="https://aplus.filma.cn/1826576586/12192648" type="video/mp4">
+                    <!-- 在source标签后添加播放按钮 -->
+                    <div class="play-button-overlay"></div>
+                </video>
+                <div class="play-button" id="playButton">
+                    <i class="fa fa-play"></i>
+                </div>
+</div>
+               
+            </div>
+			
+			
+			
+			
+			
+			
+        </section>
+		
+		
+    </div>
+
+    <section class="section white" data-scroll-section="">
+        <div class="q-container container-inner">
+            <div class="columns">
+			
+                <div class="column journal_article menu_fade">
+  <h3>{$title}</h3>
+                    <div class="art-catenamecon"> 
+					<br>
+{loop $kws $name $url}
+<span>#{$name}</span>
+{/loop}    
+		</div>
+		 <div class="content" style="padding:20px; max-width:100%; overflow:hidden;"> 
+                    {$content}
+
+                     </div>
+					 
+					 
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <section class="section no-pt grey motion_hover" data-fov="39.5" data-scroll-section>
+
+        <div class="q-container container-inner">
+            <div class="columns">
+                <div class="column menu_fade">
+
+                    <ol class="journal-list next_prev motion_hover_container">
+
+{if $prev_page}
+                        <li class="journal-thumbnail-container link">
+                            <div>
+                                <a href="{$prev_page.url}" class="hover-target">
+                                    <div class="label">
+                                        <span class="indicator font_caps">Prev</span>
+                                        <h4>{$prev_page.title}</h4>
+                                        <p>
+                                             {dr_strcut($prev_page.description, 20)}
+                                            <span class="category font_caps">/ {$cat.name}</span>
+                                        </p>
+                                        <span class="more">+</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <img class="motion_hover__img" data-src="{dr_thumb($prev_page.thumb, '', '')} " alt=""/>
+                        </li>{/if}
+
+                        
+{if $next_page}
+                        <li class="journal-thumbnail-container link">
+                            <div>
+                                <a href="{$next_page.url}"  class="hover-target">
+                                    <div class="label">
+                                        <span class="indicator font_caps">Next</span>
+                                        <h4>{$next_page.title}</h4>
+										
+										
+										
+										
+										
+										
+
+                                        <p>
+                                         {dr_strcut($next_page.description, 20)}
+                                        <span class="category font_caps">/ {$cat.name}</span>
+                                        </p>
+                                        <span class="more">+</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <img class="motion_hover__img" data-src="{dr_thumb($next_page.thumb, '', '')}" alt=""/>
+                        </li>{/if}
+                        
+                    </ol>
+
+                    <a href="{dr_share_cat_value(16, 'url')}" class="magnet center">更多作品... <span class="magnet_circle"><span class="magnet_arrow">&#8594;</span></span></a>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+                        {template "foot.htm"}  
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+       
+         
+    </body>
+    <style>
+        .video-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .play-button i {
+            content: "\f04b"; /* FontAwesome 播放图标 */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 30px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .play-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            width: 85px;
+            height: 85px;
+        }
+        
+        .video-playing .play-button {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoPlayer = document.getElementById('videoPlayer');
+            const video = document.getElementById('mainVideo');
+            const playButton = document.getElementById('playButton');
+            
+            // 点击播放按钮播放视频
+            playButton.addEventListener('click', function(e) {
+                e.stopPropagation(); // 阻止事件冒泡
+                video.play();
+                videoPlayer.classList.add('video-playing');
+            });
+            
+            // 视频播放时隐藏自定义播放按钮
+            video.addEventListener('play', function() {
+                videoPlayer.classList.add('video-playing');
+            });
+            
+            // 视频暂停时显示播放按钮
+            video.addEventListener('pause', function(e) {
+                // 检查是否是由用户操作引起的暂停
+                if (!video.seeking) {
+                    videoPlayer.classList.remove('video-playing');
+                }
+            });
+            
+            // 视频结束时显示播放按钮
+            video.addEventListener('ended', function() {
+                videoPlayer.classList.remove('video-playing');
+            });
+            
+            // 完全移除视频点击事件，让原生控件处理
+            // 原生控件已经能够处理点击暂停/播放的功能
+            
+            // 防止视频控件区域的点击事件冒泡
+            video.addEventListener('controlschange', function(e) {
+                e.stopPropagation();
+            });
+            
+            // 移除可能导致冲突的事件监听
+            video.removeEventListener('click', function() {});
+        });
+    </script>
+    </body>
+</html>
+
